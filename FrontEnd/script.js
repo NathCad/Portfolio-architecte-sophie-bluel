@@ -6,12 +6,15 @@ console.log(data, travaux);
 const nomsCategories = recupererNomsCategoriesTravaux(travaux);
 console.log(nomsCategories);
 
-contenu(travaux);
+afficherListeTravaux(travaux);
 
 /*Creer le bouton tous. Lui il change jamais et est connu à l'avance*/
 const boutonTous = document.createElement("button");
 /*ajout du texte*/
 boutonTous.textContent = "Tous";
+boutonTous.setAttribute("id", "Tous");
+boutonTous.setAttribute("class", "selectionne");
+boutonTous.addEventListener("click", filtreEventHandler);
 /*Selectionner div filtre pour ajouts bouton*/
 const filtreContainer = document.querySelector(".filtres");
 filtreContainer.appendChild(boutonTous);
@@ -19,21 +22,47 @@ filtreContainer.appendChild(boutonTous);
 for (const nomCategorie of nomsCategories) {
   const bouton = document.createElement("button");
   bouton.textContent = nomCategorie;
+  bouton.setAttribute("id", nomCategorie);
+  bouton.addEventListener("click", filtreEventHandler);
   filtreContainer.appendChild(bouton);
 }
 
-function contenu(travaux) {
+function filtreEventHandler(e) {
+  /*recuperer l'ID du bouton e*/
+  const nomCategorie = e.target.id;
+  /*en fonction du bouton je dois créer une nouvelle liste filtrée*/
+  if (nomCategorie === "Tous") {
+    afficherListeTravaux(travaux);
+  } else {
+    const listeFiltre = travaux.filter(
+      (travail) => nomCategorie === travail.category.name
+    );
+    /* rappeler la fonction contenu avec la liste filtrée*/
+    afficherListeTravaux(listeFiltre);
+  }
+  /*changement de couleur du bouton au click*/
+  const filtreConteneur = document.querySelector(".filtres");
+  for (const bouton of filtreConteneur.children) {
+    if (bouton.id !== nomCategorie) {
+      bouton.setAttribute("class", "");
+    } else {
+      bouton.setAttribute("class", "selectionne");
+    }
+  }
+}
+
+function afficherListeTravaux(travaux) {
   /*vider gallerie*/
   const gallery = document.querySelector(".gallery");
   gallery.replaceChildren();
-  for (const { imageUrl, title } of travaux) {
-    //Creer l'image
+  for (const travail of travaux) {
+    //Creer l'image*/
     const image = document.createElement("img");
-    image.setAttribute("src", imageUrl);
-    image.setAttribute("alt", title);
+    image.setAttribute("src", travail.imageUrl);
+    image.setAttribute("alt", travail.title);
     //creer figcaption
     const figcaption = document.createElement("figcaption");
-    figcaption.innerText = title;
+    figcaption.innerText = travail.title;
     const figure = document.createElement("figure");
     figure.appendChild(image);
     figure.appendChild(figcaption);
