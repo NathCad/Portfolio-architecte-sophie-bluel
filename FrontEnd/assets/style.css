@@ -134,6 +134,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: #fffef8;
 }
 header {
   display: flex;
@@ -283,4 +284,44 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.inputs {
+  display: flex;
+  width: 30%;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.connection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+}
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 60px;
+  width: 179px;
+  height: 36px;
+  background-color: #1d6154;
+  color: white;
+}
+.inputs input {
+  width: 379px;
+  height: 51px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
