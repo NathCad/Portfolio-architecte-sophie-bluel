@@ -11,8 +11,8 @@
         rel="stylesheet">
     <meta name="description" content="">
     <link rel="stylesheet" href="./assets/style.css">
+    <script src="scriptLogin.js"></script>
     <!--ajout lien script-->
-    <script type="module" src="script.js"></script>
 </head>
 
 <body>
@@ -27,22 +27,25 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <form>
-            <div class="title">
-                <h2>Log In</h2>
-            </div>
-            <div class="inputs">
-                <label for="email">E-mail</label>
-                <input type="email" id="email">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password">
-            </div>
-            <div class="connection">
-                <button type="submit">se connecter</button>
-            </div>
-        </form>
+    <main class="login">
+        <h2>Log In</h2>
+        <div id="loginForm">
+            <label for="email">E-mail</label>
+            <input type="email" name="email" id="email">
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password">
+            <i class="error"></i>
+            <button class="connection" type="submit" onclick="handleLogin()">se connecter</button>
+        </div>
+        <a class="mot-passe-oublie">mot de passe oublié</a>
     </main>
+    <footer>
+        <nav>
+            <ul>
+                <li>Mentions Légales</li>
+            </ul>
+        </nav>
+    </footer>
 </body>
 
 </html>

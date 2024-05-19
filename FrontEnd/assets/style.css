@@ -166,6 +166,9 @@ h2 {
   font-size: 30px;
   color: #1d6154;
 }
+button {
+  cursor: pointer;
+}
 nav ul {
   display: flex;
   align-items: center;
@@ -286,42 +289,49 @@ footer nav ul {
   margin: 2em;
 }
 
-.title {
+.login h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 36px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px;
 }
-.inputs {
+#loginForm {
   display: flex;
+  margin: 20px auto 0 auto;
   width: 30%;
-  margin-top: 20px;
   flex-direction: column;
   align-items: flex-start;
 }
-.connection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 50px;
-}
-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.login button {
   border: none;
   border-radius: 60px;
-  width: 179px;
-  height: 36px;
+  width: 11rem;
+  height: 2.1rem;
   background-color: #1d6154;
   color: white;
+  margin: 20% auto 0 auto;
 }
-.inputs input {
-  width: 379px;
-  height: 51px;
+
+.login input {
+  width: 20rem;
+  height: 3rem;
   border: none;
   background-color: #ffffff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+#loginForm label:last-of-type {
+  margin: 2rem 0 0 0;
+}
+.mot-passe-oublie {
+  text-decoration: underline;
+  display: block;
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+}
+.error {
+  color: red;
+  font-style: italic;
+  margin: 5px 0 0 0;
+  visibility: hidden;
 }

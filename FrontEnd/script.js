@@ -8,16 +8,9 @@ console.log(nomsCategories);
 
 afficherListeTravaux(travaux);
 
-/*Creer le bouton tous. Lui il change jamais et est connu à l'avance*/
-const boutonTous = document.createElement("button");
-/*ajout du texte*/
-boutonTous.textContent = "Tous";
-boutonTous.setAttribute("id", "Tous");
-boutonTous.setAttribute("class", "selectionne");
-boutonTous.addEventListener("click", filtreEventHandler);
 /*Selectionner div filtre pour ajouts bouton*/
 const filtreContainer = document.querySelector(".filtres");
-filtreContainer.appendChild(boutonTous);
+
 /* POur les autres boutons utiliser les categories récupérées plus haut*/
 for (const nomCategorie of nomsCategories) {
   const bouton = document.createElement("button");
@@ -27,6 +20,8 @@ for (const nomCategorie of nomsCategories) {
   filtreContainer.appendChild(bouton);
 }
 
+Tous.addEventListener("click", filtreEventHandler);
+
 function filtreEventHandler(e) {
   /*recuperer l'ID du bouton e*/
   const nomCategorie = e.target.id;
@@ -34,11 +29,11 @@ function filtreEventHandler(e) {
   if (nomCategorie === "Tous") {
     afficherListeTravaux(travaux);
   } else {
-    const listeFiltre = travaux.filter(
+    const travauxFiltres = travaux.filter(
       (travail) => nomCategorie === travail.category.name
     );
     /* rappeler la fonction contenu avec la liste filtrée*/
-    afficherListeTravaux(listeFiltre);
+    afficherListeTravaux(travauxFiltres);
   }
   /*changement de couleur du bouton au click*/
   const filtreConteneur = document.querySelector(".filtres");
