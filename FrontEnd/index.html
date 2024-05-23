@@ -13,21 +13,30 @@
   <link rel="stylesheet" href="./assets/style.css">
   <!--ajout lien script-->
   <script type="module" src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin referrerpolicy="no-referrer">
 </head>
 
 <body>
+  <button id="edition">
+    <i class="fa-regular fa-pen-to-square"></i>
+    <span>mode édition</span>
+
+  </button>
   <header>
     <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
     <nav>
       <ul>
         <li>projets</li>
         <li>contact</li>
-        <li><a href="pageLogin.html">login</a></li>
+        <li><a id="login" href="pageLogin.html">login</a></li>
         <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
       </ul>
     </nav>
   </header>
   <main>
+    </div>
     <div id="introduction">
       <figure>
         <img src="./assets/images/sophie-bluel.png" alt="portrait en buste sophie-bluel">
@@ -52,7 +61,11 @@
       </article>
     </div>
     <section id="portfolio">
-      <h2>Mes Projets</h2>
+      <h2>Mes Projets <button id="modifier">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <span>modifier</span>
+        </button></h2>
+
       <!--ajouter un div filtres pour 1 css, 2 faire une querySelector-->
       <div class="filtres">
         <button type="button" id="Tous" class="selectionne">Tous</button>
