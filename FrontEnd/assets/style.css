@@ -2,6 +2,14 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --modal-content-gap: 10px;
+  --nb-modal-content-img: 5;
+}
 
 html,
 body,
@@ -365,4 +373,94 @@ footer nav ul {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+/*fenêtre modal*/
+#modal-ajout-photo {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-wrapper {
+  width: 50vw;
+  height: calc(100vh - 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  position: relative;
+  padding: 50px 8vw 0 8vw;
+  border-radius: 10px;
+}
+#close-modal-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background-color: transparent;
+}
+#modal-title {
+  font-size: 26px;
+  font-family: Work Sans;
+  color: black;
+  margin-bottom: 50px;
+}
+#modal-content {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--modal-content-gap);
+  padding: 0 0 30px 0;
+  border-bottom: solid 1px grey;
+}
+#modal-content > article {
+  position: relative;
+  width: calc(
+    (100% / var(--nb-modal-content-img)) -
+      (
+        (var(--nb-modal-content-img) - 1) * var(--modal-content-gap) /
+          var(--nb-modal-content-img)
+      )
+  );
+}
+#modal-content img {
+  max-width: 100%;
+  object-fit: contain;
+}
+#modal-content article button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: black;
+  border-radius: 3px;
+  padding: 5px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fa-trash-can {
+  display: inline-block;
+  color: white;
+  width: fit-content;
+}
+.modal-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+.addPhoto {
+  background-color: #1d6154;
+  border-radius: 60px;
+  color: white;
+  border: none;
+  padding: 5px 30px;
 }

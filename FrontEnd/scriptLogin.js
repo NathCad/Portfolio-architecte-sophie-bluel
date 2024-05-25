@@ -1,3 +1,6 @@
+const loginApiUrl = "http://localhost:5678/api/users/login";
+const accueilUrl = "index.html";
+
 document.getElementById("loginForm").addEventListener("submit", handleLogin);
 
 /**
@@ -37,7 +40,7 @@ function showError(text) {
  * @param {string} password
  */
 async function loginToServer(email, password) {
-  const response = await fetch("http://localhost:5678/api/users/login", {
+  const response = await fetch(loginApiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -60,5 +63,5 @@ async function loginToServer(email, password) {
  */
 function handleUserLoggedIn(json) {
   window.sessionStorage.setItem("user", JSON.stringify(json));
-  window.location.replace("http://localhost:5500/FrontEnd/index.html");
+  window.location.replace(accueilUrl);
 }
