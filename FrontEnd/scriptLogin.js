@@ -10,6 +10,29 @@ document.getElementById("loginForm").addEventListener("submit", handleLogin);
  * @param {*} e
  */
 function handleLogin(e) {
+  /**
+   * procedure de connexion
+   * effectue un appel en post sur le endpoint /users/login
+   * gère le retour en affichant une erreur ou en lançant la procedure de succès du login
+   * @param {string} email
+   * @param {string} password
+   */
+  async function loginToServer(email, password) {
+    const response = await fetch(loginApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    console.log(response);
+    if (!response.ok) {
+      showError("Identifiant/mot de passe invalide");
+    } else {
+      const json = await response.json();
+      handleUserLoggedIn(json);
+    }
+  }
   /*empêche l'envoie du formulaire au serveveur*/
   e.preventDefault();
   const email = document.querySelector("#email").value;
@@ -29,31 +52,6 @@ function handleLogin(e) {
 function showError(text) {
   const errorElement = document.querySelector(".error");
   errorElement.textContent = text;
-  errorElement.style.visibility = "visible";
-}
-
-/**
- * procedure de connexion
- * effectue un appel en post sur le endpoint /users/login
- * gère le retour en affichant une erreur ou en lançant la procedure de succès du login
- * @param {string} email
- * @param {string} password
- */
-async function loginToServer(email, password) {
-  const response = await fetch(loginApiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  console.log(response);
-  if (!response.ok) {
-    showError("Identifiant/mot de passe invalide");
-  } else {
-    const json = await response.json();
-    handleUserLoggedIn(json);
-  }
 }
 
 /**

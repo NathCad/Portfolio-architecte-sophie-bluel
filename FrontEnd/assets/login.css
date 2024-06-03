@@ -1,0 +1,34 @@
+.login h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+#loginForm {
+  display: flex;
+  margin: 20px auto 0 auto;
+  width: 30%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#loginForm input {
+  width: 100%;
+}
+.login button {
+  border: none;
+  border-radius: 60px;
+  width: 11rem;
+  height: 2.1rem;
+  background-color: #1d6154;
+  color: white;
+  margin: 20% auto 0 auto;
+}
+#loginForm label:last-of-type {
+  margin: 2rem 0 0 0;
+}
+.mot-passe-oublie {
+  text-decoration: underline;
+  display: block;
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+}
