@@ -16,7 +16,18 @@ function getFileUploadInput() {
 function getModifyWorksButton() {
   return document.getElementById("modify-works-button");
 }
-
+function getFilePreview() {
+  return document.getElementById("file-preview");
+}
+function getPhotoFileUploadInput() {
+  return document.getElementById("photo-file-loader-input");
+}
+function getAddNewWorkTitleInput() {
+  return document.getElementById("form-add-new-work-title-input");
+}
+function getAddNewWorkSelectInput() {
+  return document.getElementById("modal-select-filtres");
+}
 //#region Modal
 
 /**
@@ -30,7 +41,6 @@ function addNewWorkSubmitEventHandler(e) {
     categorieFiltres
   ) => {
     const handleAddPhotoSuccess = (work) => {
-      showModalContentDeleteWork();
       work.category = categories.find(
         (cat) => cat.id === Number(work.categoryId)
       );
@@ -39,7 +49,10 @@ function addNewWorkSubmitEventHandler(e) {
       const gallery = document.querySelector(".gallery");
       createWorkItem(work, gallery);
       works.push(work);
+      resetAddNewWorkForm();
+      showModalContentDeleteWork();
     };
+
     const formData = new FormData();
     formData.append("image", fileUploaded);
     formData.append("title", photoTitle);
@@ -61,14 +74,10 @@ function addNewWorkSubmitEventHandler(e) {
 
   e.preventDefault();
   //effacer les erreurs précédentes
-  document.getElementById("error-file").textContent = "";
-  document.getElementById("error-title").textContent = "";
-
+  clearAddWorkErrors();
   const fileUploaded = getFileUploadInput().files?.[0];
-  const photoTitle = document.getElementById("title").value;
-  const categorieFiltres = document.getElementById(
-    "modal-select-filtres"
-  ).value;
+  const photoTitle = getAddNewWorkTitleInput().value;
+  const categorieFiltres = getAddNewWorkSelectInput().value;
 
   if (!fileUploaded || !photoTitle) {
     if (!fileUploaded) {
@@ -82,6 +91,11 @@ function addNewWorkSubmitEventHandler(e) {
   } else {
     upLoadImageToServer(fileUploaded, photoTitle, categorieFiltres);
   }
+}
+
+function clearAddWorkErrors() {
+  document.getElementById("error-file").textContent = "";
+  document.getElementById("error-title").textContent = "";
 }
 
 /**
@@ -108,10 +122,11 @@ function addEventListenerOnFileUploadInput(maxFileSizeForFileUpload) {
       return;
     }
     const fileReader = new FileReader();
-    const preview = document.getElementById("file-preview");
+    const preview = getFilePreview();
     fileReader.addEventListener("load", (e) => {
       preview.setAttribute("src", e.target.result);
-      document.getElementById("photo-file-loader-input").style.display = "none";
+      preview.style.display = "block";
+      getPhotoFileUploadInput().style.display = "none";
     });
     fileReader.readAsDataURL(file);
   });
@@ -148,9 +163,27 @@ function clickOutsideModalContentEventHandler(e) {
  */
 function closeModalEventHandler() {
   const modal = getModal();
-  modal.style.display = "none";
+  closeAndResetModalContent();
   modal.removeEventListener("click", clickOutsideModalContentEventHandler);
 }
+
+function closeAndResetModalContent() {
+  resetAddNewWorkForm();
+  showModalContentDeleteWork();
+  getModal().style.display = "none";
+}
+
+function resetAddNewWorkForm() {
+  getFileUploadInput().value = "";
+  getFilePreview().setAttribute("src", "");
+  getPhotoFileUploadInput().style.display = "flex";
+  getFilePreview().style.display = "none";
+  clearAddWorkErrors();
+  getAddNewWorkTitleInput().value = "";
+  getAddNewWorkSelectInput().value =
+    getAddNewWorkSelectInput().options[0].value;
+}
+
 /**
  * ajout  un eventListener sur le bouton modifier gallerie, et affiche la modale
  */
@@ -247,8 +280,19 @@ function createModalPhoto(work, modalContent) {
  * @param {*} e
  */
 function filtreEventHandler(e) {
+  /**
+   * Gère le toggle du bouton tous en fonction de la selectedCategory
+   */
+  const toggleShowAllButtonSelectedCssClass = (bouton, selectedCategory) => {
+    if (selectedCategory === null) {
+      bouton.setAttribute("class", "selectionne");
+    } else {
+      bouton.setAttribute("class", "");
+    }
+  };
+
   let selectedCategoryForFilter;
-  if (e.target.id === "Tous") {
+  if (e.target.id === filterButtonShowAllCategoryId) {
     createWorkItemsFromWorks(works);
     selectedCategoryForFilter = null;
   } else {
@@ -266,8 +310,8 @@ function filtreEventHandler(e) {
   const filtreConteneur = document.querySelector(".filtres");
   for (const bouton of filtreConteneur.children) {
     //Bouton tous
-    if (bouton.id === "Tous") {
-      toggleBoutonTous(bouton, selectedCategoryForFilter);
+    if (bouton.id === filterButtonShowAllCategoryId) {
+      toggleShowAllButtonSelectedCssClass(bouton, selectedCategoryForFilter);
       continue;
     }
     //Autres boutons
@@ -302,7 +346,6 @@ function handleUserIsLoggedIn() {
     });
   }
 }
-
 /**
  * Vide les boutons filtres et les re-créé à partir d'une map d'id et de noms de categories
  * @param {*} mapIdCategoryName
@@ -311,12 +354,12 @@ function createFilterButtons(mapIdCategoryName) {
   const filtreContainer = document.querySelector(".filtres");
   filtreContainer.replaceChildren();
   //Bouton tous
-  const boutonTous = document.createElement("button");
-  boutonTous.setAttribute("id", "Tous");
-  boutonTous.textContent = "Tous";
-  boutonTous.addEventListener("click", filtreEventHandler);
-  boutonTous.setAttribute("class", "selectionne");
-  filtreContainer.appendChild(boutonTous);
+  const showAllButton = document.createElement("button");
+  showAllButton.setAttribute("id", filterButtonShowAllCategoryId);
+  showAllButton.textContent = "Tous";
+  showAllButton.addEventListener("click", filtreEventHandler);
+  showAllButton.setAttribute("class", "selectionne");
+  filtreContainer.appendChild(showAllButton);
 
   /* Pour les autres boutons utiliser les categories récupérées plus haut*/
   for (const id of Array.from(mapIdCategoryName.keys()).sort()) {
@@ -372,19 +415,6 @@ function getCategoryHtmlId(id) {
  */
 function getIdFromCategoryHtmlId(categoryHtmlId) {
   return Number(categoryHtmlId.split("button-filter-category-")[1]);
-}
-
-/**
- * Gère le toggle du bouton tous en fonction de la selectedCategory
- * @param {*} bouton
- * @param {*} selectedCategory
- */
-function toggleBoutonTous(bouton, selectedCategory) {
-  if (selectedCategory === null) {
-    bouton.setAttribute("class", "selectionne");
-  } else {
-    bouton.setAttribute("class", "");
-  }
 }
 
 /**
@@ -444,6 +474,7 @@ const worksApiUrl = "http://localhost:5678/api/works";
 const categoryApiUrl = "http://localhost:5678/api/categories";
 const accueilUrl = "index.html";
 const maxFileSizeForFileUpload = 4 * 1024 * 1024;
+const filterButtonShowAllCategoryId = "show-all-filter-button";
 
 const fetchedWorks = await fetch(worksApiUrl);
 let works = await fetchedWorks.json();
@@ -454,7 +485,6 @@ const categories = await fetchedCategories.json();
 
 handleUserIsLoggedIn();
 createAllWorksItems(works);
-
 addEventListenerOnModifyWorksButton();
 createAddPhotoCategoriesOptions(categories);
 addEventListenerOnButtonCloseModal();
