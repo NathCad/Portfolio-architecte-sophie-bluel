@@ -47,6 +47,7 @@
   font-family: Work Sans;
   color: black;
   margin-bottom: 30px;
+  font-weight: 400;
 }
 #modal-content {
   display: flex;
@@ -107,11 +108,7 @@
   border: none;
   padding: 5px 30px;
 }
-#modal-content-add-work .modal-title {
-  font-family: Work Sans;
-  font-size: 26px;
-  font-weight: 400;
-}
+
 #return-to-modal-content-delete-work-button {
   position: absolute;
   top: 15px;
@@ -199,8 +196,11 @@ input[type="file"] {
   height: 36px;
   border-radius: 60px;
   border: none;
-  background-color: #a7a7a7;
+  background-color: #1d6154;
   color: white;
+}
+#modal-content-add-work .valider:disabled {
+  background-color: #a7a7a7;
 }
 #modal-select-filtres {
   height: 51px;
