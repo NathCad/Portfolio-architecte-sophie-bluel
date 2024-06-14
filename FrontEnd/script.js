@@ -324,11 +324,11 @@ function doSelectShowAllItemsFilterButton() {
 /**
  * Gère le toggle du bouton tous en fonction de la selectedCategory
  */
-function doToggleShowAllButtonSelectedCssClass(bouton, selectedCategory) {
+function doToggleShowAllButtonSelectedCssClass(boutonTous, selectedCategory) {
   if (selectedCategory === null) {
-    bouton.setAttribute("class", "selectionne");
+    boutonTous.setAttribute("class", "selectionne");
   } else {
-    bouton.setAttribute("class", "");
+    boutonTous.setAttribute("class", "");
   }
 }
 
@@ -341,10 +341,10 @@ function doUpdateFilterButtonsSelectedStatus(selectedCategoryForFilter) {
       continue;
     }
     //Autres boutons
-    if (getIdFromCategoryHtmlId(bouton.id) !== selectedCategoryForFilter) {
-      bouton.setAttribute("class", "");
-    } else {
+    if (getIdFromCategoryHtmlId(bouton.id) === selectedCategoryForFilter) {
       bouton.setAttribute("class", "selectionne");
+    } else {
+      bouton.setAttribute("class", "");
     }
   }
 }
@@ -501,7 +501,6 @@ function handleFilterButtonClick(e) {
     doCreateWorkItemsFromWorks(works);
     selectedCategoryForFilter = null;
   } else {
-    selectedCategoryForFilter = getIdFromCategoryHtmlId(e.target.id);
     /*en fonction du bouton je dois créer une nouvelle liste filtrée*/
     /*recuperer l'ID du bouton e*/
     const travauxFiltres = works.filter(
@@ -509,6 +508,7 @@ function handleFilterButtonClick(e) {
     );
     /* rappeler la fonction contenu avec la liste filtrée*/
     doCreateWorkItemsFromWorks(travauxFiltres);
+    selectedCategoryForFilter = getIdFromCategoryHtmlId(e.target.id);
   }
 
   /*changement de couleur du bouton au click*/
@@ -533,6 +533,7 @@ function isFileExtensionValid() {
     return false;
   }
   const nameExtension = fileUploaded.name.split(".");
+  //l'extension est la derniere chaine apres un point
   if (!allowedExtensions.includes(nameExtension[nameExtension.length - 1])) {
     return false;
   }
@@ -564,8 +565,8 @@ let works = await fetchedWorks.json();
 const fetchedCategories = await fetch(categoryApiUrl);
 const categories = await fetchedCategories.json();
 
-doShowUserLoggedInUserInterface();
 doCreateAllWorksItems(works);
+doShowUserLoggedInUserInterface();
 doCreateAddPhotoCategoriesOptions(categories);
 //disabled modal input
 doEnableDisableAddNewWorkSubmitButton();
