@@ -503,12 +503,12 @@ function handleFilterButtonClick(e) {
   } else {
     /*en fonction du bouton je dois créer une nouvelle liste filtrée*/
     /*recuperer l'ID du bouton e*/
+    selectedCategoryForFilter = getIdFromCategoryHtmlId(e.target.id);
     const travauxFiltres = works.filter(
       (work) => selectedCategoryForFilter === work.category.id
     );
     /* rappeler la fonction contenu avec la liste filtrée*/
     doCreateWorkItemsFromWorks(travauxFiltres);
-    selectedCategoryForFilter = getIdFromCategoryHtmlId(e.target.id);
   }
 
   /*changement de couleur du bouton au click*/
